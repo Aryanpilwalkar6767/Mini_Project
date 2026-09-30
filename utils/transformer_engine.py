@@ -31,8 +31,8 @@ class TransformerEngine:
             
         self.device = torch.device("cpu")
         
-        # Load Tokenizer & Model
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_identifier)
+        # Load Tokenizer & Model (use_fast=False forces stable native Python T5Tokenizer)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_identifier, use_fast=False)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_identifier).to(self.device)
         self.model.eval()
         
