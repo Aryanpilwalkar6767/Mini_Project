@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 # Fallback Hugging Face model repository if local weights are missing/not in git
 # REPLACE 'YOUR_HF_USERNAME' WITH YOUR ACTUAL HUGGING FACE USERNAME
-DEFAULT_HF_MODEL_ID = "YOUR_HF_USERNAME/t5-small-informal-to-formal"
+DEFAULT_HF_MODEL_ID = "https://huggingface.co/Aryan6767/t5-small-informal-to-formal"
 
 class TransformerEngine:
     def __init__(self, model_dir=None):
