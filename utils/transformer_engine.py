@@ -2,9 +2,8 @@ import os
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-# Fallback Hugging Face model repository if local weights are missing/not in git
-# REPLACE 'YOUR_HF_USERNAME' WITH YOUR ACTUAL HUGGING FACE USERNAME
-DEFAULT_HF_MODEL_ID = "https://huggingface.co/Aryan6767/t5-small-informal-to-formal"
+# Default repository on Hugging Face (Format MUST be: "username/repo_name")
+DEFAULT_HF_MODEL_ID = "Aryan6767/t5-small-informal-to-formal"
 
 class TransformerEngine:
     def __init__(self, model_dir=None):
@@ -21,7 +20,13 @@ class TransformerEngine:
             self.model_identifier = local_model_path
             print(f"[TransformerEngine] Loading model from LOCAL path: {self.model_identifier}")
         else:
-            self.model_identifier = os.environ.get("HF_MODEL_ID", DEFAULT_HF_MODEL_ID)
+            raw_id = os.environ.get("HF_MODEL_ID", DEFAULT_HF_MODEL_ID)
+            # Safeguard: Clean full URLs if passed by mistake
+            self.model_identifier = (
+                raw_id.replace("https://huggingface.co/", "")
+                      .replace("http://huggingface.co/", "")
+                      .strip("/")
+            )
             print(f"[TransformerEngine] Local model not found. Loading from HUGGING FACE: {self.model_identifier}")
             
         self.device = torch.device("cpu")
